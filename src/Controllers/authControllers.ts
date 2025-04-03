@@ -13,7 +13,7 @@ export const authControllers = {
         userRepository
       );
 
-      res.cookie("token=", token, {
+      res.cookie("token", token, {
         httpOnly: true,
         sameSite: "none",
         secure: true,
@@ -21,6 +21,17 @@ export const authControllers = {
       });
 
       res.status(200).json({ message: "login completed", id });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      res
+        .clearCookie("token")
+        .status(200)
+        .json({ message: "logout completed" });
     } catch (error) {
       next(error);
     }
